@@ -1,0 +1,12 @@
+body, html {
+    overflow: hidden;
+    max-width:; 100%;
+    max-height:; 100%;
+}
+html {
+	font-family: 'Arvo', serif;
+}
+body {
+	background-color: gray;
+	margin: 0;
+}
