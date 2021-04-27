@@ -52,14 +52,14 @@ var s0_img_layer= new Konva.Layer();
 
 var s0_text_layer = new Konva.Layer();
 
-
-function draw_s0(){
+function draw_game(){
 	stage.clear();
 	stage.draw();
 }
+
 function update_cheesies(){
 	cheese_text.setAttr('text', "Cheesies: " + cheesies);
-	draw_s0();
+	draw_game();
 }
 
 // Initializing what happens/what the cheese image looks like
@@ -214,6 +214,6 @@ function change_s0(){
 	stage.add(s0_img_layer);
 	stage.add(s0_text_layer);
 }
-
+init_mousehole()
 init_cheese();
 change_s0();
