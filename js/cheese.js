@@ -204,7 +204,6 @@ function init_mousehole(){
 
 	// THE GUTS OF THE OPERATION
 	mousehole_img.on('mousedown', function() {
-		console.log("attempted to enter");
 		change_s1();
 	});
 }
@@ -214,6 +213,5 @@ function change_s0(){
 	stage.add(s0_img_layer);
 	stage.add(s0_text_layer);
 }
-init_mousehole()
 init_cheese();
 change_s0();

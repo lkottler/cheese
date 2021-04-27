@@ -39,7 +39,7 @@ function init_lovegif(){
 		y: height/2,
 	});
 	love_text = new Konva.Text({
-		x: 330, y: 100,
+		x: 315, y: 100,
 		Text: "Thanks for clicking the link, and for clicking the cheese! ♥\nSorry the gif looks cursed, I'm doing some weird gif to Canvas magic\nMonke is eternal",
 		fontSize: 50 * (height/STD_HEIGHT),
 		fontFamily: STD_FONT, fill: 'white',
