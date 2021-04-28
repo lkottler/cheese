@@ -1,65 +1,52 @@
-var s1_img_layer= new Konva.Layer();
-/*
-	s1_img_layer.on('mouseover', function (evt) {
-		var shape = evt.target;
-		document.body.style.cursor = 'pointer';
-		shape.scaleX(1.2);
-		shape.scaleY(1.2);
-		if (gameState == 1)
-			s1_img_layer.draw();
-	});
+function init_warrior(){
+	// Creating the graphic
+	var x = width/2, y = height/2,
+		img_width = 741, img_height = 547,
+		off_x = 150, off_y = 100;
 
-	s1_img_layer.on('mouseout', function (evt) {
-		var shape = evt.target;
-		document.body.style.cursor = 'default';
-		shape.scaleX(1);
-		shape.scaleY(1);
-		if (gameState == 1)
-			s1_img_layer.draw();
-	});
-*/
-var s1_text_layer = new Konva.Layer();
+	var x_text = -100, y_text = 130;
 
-function init_lovegif(){
-	var canvas = document.createElement(('canvas'));
-	function onDrawFrame(ctx, frame) {
-		canvas.width = frame.width;
-		canvas.height = frame.height;
-		ctx.drawImage(frame.buffer, 0, 0);
-		s1_img_layer.draw();
+	if (SCALING){
+		img_width*=x_scale; img_height*=y_scale;
+		off_x*=x_scale; off_y*=y_scale;
+		x_text*=x_scale; y_text*=y_scale;
 	}
-
-	gifler('res/gif/monkey.gif').frames(canvas, onDrawFrame);
-
-	var image = new Konva.Image({
-		image: canvas,
-		width: 750,
-		height: 486,
-		x: width/2 - 350,
-		y: height/2,
+	warrior_img = new Konva.Image({
+		x: x, y: y,
+		width: img_width, height: img_height,
+		offset: { x: off_x, y: off_y,}
 	});
-	love_text = new Konva.Text({
-		x: 315, y: 100,
-		Text: "Thanks for clicking the link, and for clicking the cheese! ♥\nSorry the gif looks cursed, I'm doing some weird gif to Canvas magic\nMonke is eternal",
-		fontSize: 50 * (height/STD_HEIGHT),
-		fontFamily: STD_FONT, fill: 'white',
-		align: "center",
-		opacity: 1, //opacity set to 0, changed to 1 upon reaching 50 cheesies
+	s0_img_layer.add(warrior_img);
+	console.log(width/STD_WIDTH);
+
+	cheese_text = new Konva.Text({
+		x: x+x_text, y: y+y_text,
+		fontSize: 40 * y_scale,
+		fontFamily: STD_FONT,
+		fill: 'white'
 	});
-	s1_text_layer.add(love_text);
-	s1_img_layer.add(image);
+	s0_text_layer.add(cheese_text);
+
+	var cheese_imgObj = new Image();
+	cheese_imgObj.onload = function () {
+		cheese_img.image(cheese_imgObj);
+		s0_img_layer.draw();
+	};
+	cheese_imgObj.src = 'res/img/warrior.png';
+
+	// THE GUTS OF THE OPERATION
+	cheese_img.on('mousedown', function() {
+		cheesies++;
+		total_cheesies++;
+		if (total_cheesies == 10){
+			unlocks[0] = true;
+			init_mouse();
+		} else if (total_cheesies > 10 && total_cheesies <= 50){
+			mouse_img.setAttr('opacity', total_cheesies * 0.02);
+		} else if (total_cheesies > 50){
+			mouse_text.setAttr('opacity', 1);
+		}
+		update_cheesies();
+	});
 }
 
-function change_s1(){
-	stage.clear();
-	document.body.style.cursor = 'default';
-	gameState = 1;
-	document.body.style.backgroundColor = "#02413E";
-
-	stage.removeChildren();
-	stage.add(s1_img_layer);
-	stage.add(s1_text_layer);
-	draw_game();
-}
-
-init_lovegif();

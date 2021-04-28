@@ -660,8 +660,6 @@ function youAreIn(cityId){
 
 }
 
-
-
 function run(){
 	setInterval(function() { tick(); }, 50);
 
