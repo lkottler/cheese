@@ -1,3 +1,9 @@
+// Gameplay values
+var cheesies = 0, total_cheesies = 0,
+	mouse_bribe = 0,
+	unlocks = [false,false,false,false];
+
+
 // Constants Regarding style/format
 const STD_WIDTH = 1920;
 const STD_HEIGHT = 1007;
@@ -30,13 +36,14 @@ for (var i = 0; i < 3; i++){
 	layers[i][0] = new Konva.Layer();
 	layers[i][1] = new Konva.Layer();
 
+	let temp = i;
 	layers[i][0].on('mouseover', function (evt) {
 		var shape = evt.target;
 		document.body.style.cursor = 'pointer';
 		shape.scaleX(1.2);
 		shape.scaleY(1.2);
-		if (gameState == i)
-			layers[i].draw();
+		if (gameState == temp)
+			stage.draw();
 	});
 
 	layers[i][0].on('mouseout', function (evt) {
@@ -44,13 +51,13 @@ for (var i = 0; i < 3; i++){
 		document.body.style.cursor = 'default';
 		shape.scaleX(1);
 		shape.scaleY(1);
-		if (gameState == i)
-			layers[i].draw();
+		if (gameState == temp)
+			stage.draw();
 	});
 }
 
 function init_graphic(x, y, img_width, img_height, off_x, off_y, x_text, y_text, scale, opacity, 
-	img_path, textContent, gameState, usage_function){
+	img_path, textContent, textOpacity, gameState, usage_function){
 	// Creating the graphic
 	if (SCALING){
 		x*=x_scale; y*=y_scale;
@@ -71,7 +78,8 @@ function init_graphic(x, y, img_width, img_height, off_x, off_y, x_text, y_text,
 		fontSize: 40 * y_scale,
 		fontFamily: STD_FONT,
 		text: textContent,
-		fill: 'white'
+		fill: 'white',
+		opacity: textOpacity
 	});
 	layers[gameState][1].add(graphic_text);
 
@@ -88,14 +96,15 @@ function init_graphic(x, y, img_width, img_height, off_x, off_y, x_text, y_text,
 	return [graphic_img, graphic_text];
 }
 
-function change_scene(gameState){
-	gameState = gameState;
+function change_scene(newState){
+	gameState = newState;
 	stage.clear();
 	stage.removeChildren();
 	document.body.style.cursor = 'default';
 	document.body.style.backgroundColor = background_colors[gameState % background_colors.length];
 	stage.add(layers[gameState][0]);
 	stage.add(layers[gameState][1]);
+	stage.draw();
 }
 
 

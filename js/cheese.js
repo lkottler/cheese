@@ -11,7 +11,7 @@ function update_cheesies(){
 
 function init_cheese(){
 	cheeseObj = init_graphic(width/2, height/2, 300, 200, 150, 100, -100, 130, 1, 1, 
-		'res/img/cheese.png', '', 0,
+		'res/img/cheese.png', '', 1, 0,
 
 	// Functionality of the cheese
 	function() {
@@ -31,7 +31,7 @@ function init_cheese(){
 
 function init_mouse(){
 	mouseObj = init_graphic(300, 120, 601, 358, 300, 180, -180, 130, 0.8, 0.1, 
-		'res/img/mouse.png', '', 0,
+		'res/img/mouse.png', 'Bribe the Mousie', 0, 0,
 
 	function() {
 		if (cheesies > 50){
@@ -47,11 +47,9 @@ function init_mouse(){
 
 function init_mousehole(){
 	mouseObj = init_graphic(200, 1007, 349, 292, 349/2, 292, -180, 130, 1, 1, 
-		'res/img/mousehole.png', '', 0,
+		'res/img/mousehole.png', '', 1, 0,
 
 	function() {
-		change_scene(1);
+		unlock_scene1();
 	});
 }
-change_scene(0);
-init_cheese();
