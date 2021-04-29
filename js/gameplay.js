@@ -1,19 +1,19 @@
+var warrior = {
+	alive: false,
+	health : 10,
+	attack : 1,
+	defense: 1
+};
+
+var initFuncs = [init_cheese, init_warrior, init_forest];
 
 function init_game(){
-	init_cheese();
 	change_scene(0);
-
-
 	setInterval(gameLoop, 100);
 }
 
-function unlock_scene1(){
-	init_warrior();
-	change_scene(1);
-}
-
 function gameLoop(){
-
+	//stage.draw();
 }
 
 

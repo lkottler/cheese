@@ -1,7 +1,6 @@
 // Gameplay values
-var cheesies = 0, total_cheesies = 0,
-	mouse_bribe = 0,
-	unlocks = [false,false,false,false];
+var cheesies = 0, total_cheesies = 0, mouse_bribe = 0,
+	unlocks = [false,false,false,false,false,false];
 
 
 // Constants Regarding style/format
@@ -13,7 +12,7 @@ const STD_FONT = "Calibri";
 const SCALING = false;
 
 var gameState = 0;
-var background_colors = ["#FF9365", "#02413E"];
+var background_colors = ["#FF9365", "#02413E", "#D1D362"];
 
 var width = STD_WIDTH,
 	height = STD_HEIGHT,
@@ -31,7 +30,7 @@ var stage = new Konva.Stage({
 	height: height,
 });
 
-var layers = [[], [], []];
+var layers = [[], [], [], []];
 for (var i = 0; i < 3; i++){
 	layers[i][0] = new Konva.Layer();
 	layers[i][1] = new Konva.Layer();
@@ -56,8 +55,23 @@ for (var i = 0; i < 3; i++){
 	});
 }
 
-function init_graphic(x, y, img_width, img_height, off_x, off_y, x_text, y_text, scale, opacity, 
+function update_text(konvaText, newContent){
+	console.log(konvaText);
+	let x_text = konvaText.absolutePosition().x;
+		x_text = x_text - (newContent.split('\n')[0].length - konvaText.text().split('\n')[0].length)*8;
+	konvaText.setAttr('text', newContent);
+	konvaText.setAttr('x', x_text);
+	stage.draw();
+}
+
+function init_graphic(x, y, img_width, img_height, scale, opacity, 
 	img_path, textContent, textOpacity, gameState, usage_function){
+	console.log("creating: " + img_path);
+	var off_x = (img_width/2)*scale,
+		off_y = (img_height/2)*scale,
+		x_text = (x - off_x + (img_width/2)*scale - textContent.split('\n')[0].length*8),
+		y_text = (img_height*scale - off_y + 20);
+		
 	// Creating the graphic
 	if (SCALING){
 		x*=x_scale; y*=y_scale;
@@ -74,8 +88,9 @@ function init_graphic(x, y, img_width, img_height, off_x, off_y, x_text, y_text,
 	layers[gameState][0].add(graphic_img);
 
 	graphic_text = new Konva.Text({
-		x: x+x_text, y: y+y_text,
-		fontSize: 40 * y_scale,
+		align: 'center',
+		x: x_text, y: y+y_text,
+		fontSize: 40 * x_scale,
 		fontFamily: STD_FONT,
 		text: textContent,
 		fill: 'white',
@@ -97,7 +112,14 @@ function init_graphic(x, y, img_width, img_height, off_x, off_y, x_text, y_text,
 }
 
 function change_scene(newState){
+
+
+	if (!unlocks[newState]){
+		initFuncs[newState]();
+		unlocks[newState] = true;
+	}
 	gameState = newState;
+
 	stage.clear();
 	stage.removeChildren();
 	document.body.style.cursor = 'default';
@@ -106,7 +128,6 @@ function change_scene(newState){
 	stage.add(layers[gameState][1]);
 	stage.draw();
 }
-
 
 /*		This was my example for creating a gif
 function init_lovegif(){
